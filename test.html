@@ -45,14 +45,14 @@
          // 查询数据
          db.transaction(function (tx) {
             tx.executeSql('SELECT * FROM heros', [], function (tx, data) {
-               var len = data.rows.length, i;
+               var len = data.rows.length;
                msg = "<p>查询记录条数: " + len + "</p>";
                document.querySelector('#status').innerHTML +=  msg;
 					// 将查询的英雄数据放到 datatable中
                for (i = 0; i < len; i++){
                   showData(data.rows.item(i));
                }
-            }, null);
+            });
 
          });
 			
