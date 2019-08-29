@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html>
+   <head>
+      <meta charset="UTF-8">
+      <title>SQL必知必会</title> 
+      <script type="text/javascript">
+         // 初始化
+         function init() {
+            datatable = document.getElementById("datatable");
+         }
+         // 显示每个英雄的数据
+         function showData(row){
+            var tr = document.createElement("tr");
+            var td1 = document.createElement("td");
+            var td2 = document.createElement("td");
+            var td3 = document.createElement("td");
+            var td4 = document.createElement("td");
+            var td5 = document.createElement("td"); 
+            td1.innerHTML = row.id;
+            td2.innerHTML = row.name;
+            td3.innerHTML = row.hp_max;
+            td4.innerHTML = row.mp_max;
+            td5.innerHTML = row.role_main;
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            tr.appendChild(td3);
+            tr.appendChild(td4);
+            tr.appendChild(td5);
+            datatable.appendChild(tr);   
+         }
+
+         var db = openDatabase('wucai', '1.0', '王者荣耀英雄数据', 1024 * 1024);
+         var msg;
+			// 插入数据
+         db.transaction(function (tx) {
+            tx.executeSql('CREATE TABLE IF NOT EXISTS heros (id unique, name, hp_max, mp_max, role_main)');
+            tx.executeSql('INSERT INTO heros (id, name, hp_max, mp_max, role_main) VALUES (10000, "夏侯惇", 7350, 1746, "坦克")');
+            tx.executeSql('INSERT INTO heros (id, name, hp_max, mp_max, role_main) VALUES (10001, "钟无艳", 7000, 1760, "战士")');
+            tx.executeSql('INSERT INTO heros (id, name, hp_max, mp_max, role_main) VALUES (10002, "张飞", 8341, 100, "坦克")');
+            tx.executeSql('INSERT INTO heros (id, name, hp_max, mp_max, role_main) VALUES (10003, "牛魔", 8476, 1926, "坦克")');
+            tx.executeSql('INSERT INTO heros (id, name, hp_max, mp_max, role_main) VALUES (10004, "吕布", 7344, 0, "战士")');
+            msg = '<p>heros数据表创建成功，一共插入5条数据。</p>';
+            document.querySelector('#status').innerHTML =  msg;
+         });
+         // 查询数据
+         db.transaction(function (tx) {
+            tx.executeSql('SELECT * FROM heros', [], function (tx, data) {
+               var len = data.rows.length, i;
+               msg = "<p>查询记录条数: " + len + "</p>";
+               document.querySelector('#status').innerHTML +=  msg;
+					// 将查询的英雄数据放到 datatable中
+               for (i = 0; i < len; i++){
+                  showData(data.rows.item(i));
+               }
+            }, null);
+
+         });
+			
+      </script>
+   </head>	
+   <body>
+      <div id="status" name="status">状态信息</div>
+      <table border="1" id="datatable"></table>
+</form>
+   </body>	
+</html>
