@@ -28,7 +28,7 @@
             tr.appendChild(td5);
             datatable.appendChild(tr);   
          }
-
+         // 设置数据库信息
          var db = openDatabase('wucai', '1.0', '王者荣耀英雄数据', 1024 * 1024);
          var msg;
 			// 插入数据
@@ -55,12 +55,10 @@
             });
 
          });
-			
       </script>
    </head>	
    <body>
       <div id="status" name="status">状态信息</div>
       <table border="1" id="datatable"></table>
-</form>
    </body>	
 </html>
